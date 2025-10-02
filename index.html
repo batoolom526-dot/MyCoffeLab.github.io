@@ -1,0 +1,157 @@
+ <div id="special-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:1000;justify-content:center;align-items:center;">
+    <div style="background:#fff;padding:32px 24px;border-radius:16px;max-width:350px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
+      <h2>Today's Special</h2>
+      <img src="images/pastries.webp" alt="Today's Special" style="width:120px;height:120px;object-fit:cover;border-radius:12px;margin-bottom:12px;">
+      <p id="special-desc">A unique pastry crafted by our chef. Ask for details or enjoy the surprise!</p>
+      <div id="special-choice">
+        <button onclick="showSurpriseOption()" style="background:#D4AF37;color:#fff;padding:8px 18px;border:none;border-radius:6px;cursor:pointer;margin-top:10px;margin-right:10px;">Surprise</button>
+        <button onclick="showRevealOption()" style="background:#4B2E2E;color:#fff;padding:8px 18px;border:none;border-radius:6px;cursor:pointer;margin-top:10px;">Reveal</button>
+      </div>
+      <button id="special-add-btn" onclick="addSpecialToCart()" style="background:#D4AF37;color:#fff;padding:8px 18px;border:none;border-radius:6px;cursor:pointer;margin-top:10px;display:none;">Add to Cart</button>
+      <button onclick="closeSpecialModal()" style="background:#e74c3c;color:#fff;padding:6px 14px;border:none;border-radius:6px;cursor:pointer;margin-top:10px;">Close</button>
+    </div>
+  </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cafe</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+<header>
+  <h1 style="margin:0;font-family:'Poppins',cursive;font-weight:700;color:#D4AF37;text-shadow:2px 2px 0 #4B2E2E;letter-spacing:1px;">Welcome to Smart Cafe</h1>
+  <p class="tagline">Fresh coffee delivered to your door.</p>
+    <nav class="top-nav">
+      <a href="index.html" class="top-nav-btn">Home</a>
+      <a href="about.html" class="top-nav-btn">About Us</a>
+      <a href="contact.html" class="top-nav-btn">Contact</a>
+      <a href="#cart" class="cta">Cart</a>
+    </nav>
+</header>
+
+<main>
+  <div style="display:flex;align-items:flex-start;gap:40px;margin-left:-3cm;">
+    <section id="cart">
+      <h2>Your Cart</h2>
+      <ul id="cart-items"></ul>
+      <p>Total: $<span id="cart-total">0</span></p>
+      <button onclick="checkout()">Order Now</button>
+    </section>
+    <section id="menu" style="flex:1;">
+      <h2>Our Menu</h2>
+      <hr style="margin:18px 0 24px 0;border:none;border-top:2px solid #D4AF37;">
+      <div class="menu-item">
+  <img src="images/cafe-latte.jpg" alt="Latte">
+  <h3>Latte - $4</h3>
+  <p>Creamy espresso with steamed milk.</p>
+  <button onclick="showNoteBox(this)">Add Note</button>
+  <textarea placeholder="Add a note (optional)" class="note-box" style="display:none"></textarea>
+  <button onclick="addToCart(this, 'Latte', 4)">Add to Cart</button>
+</div>
+
+
+    <div class="menu-item">
+      <img src="images/Iced-mocha.jpg" alt="Iced Mocha">
+      <h3>Iced Mocha - $5</h3>
+      <p>Espresso, chocolate, and milk over ice.</p>
+      <button onclick="showNoteBox(this)">Add Note</button>
+      <textarea class="note-box" placeholder="Add a note (optional)" style="display:none"></textarea>
+      <button onclick="addToCart(this, 'Iced Mocha', 5)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <img src="images/Mango-Matcha.webp" alt="Mango Matcha">
+      <h3>Mango Matcha - $6</h3>
+      <p>Refreshing mango with matcha green tea.</p>
+      <button onclick="showNoteBox(this)">Add Note</button>
+      <textarea class="note-box" placeholder="Add a note (optional)" style="display:none"></textarea>
+      <button onclick="addToCart(this, 'Mango Matcha', 6)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <img src="images/americano.jpg" alt="Americano">
+      <h3>Americano - $3</h3>
+      <p>Classic espresso with hot water.</p>
+      <button onclick="showNoteBox(this)">Add Note</button>
+      <textarea class="note-box" placeholder="Add a note (optional)" style="display:none"></textarea>
+      <button onclick="addToCart(this, 'Americano', 3)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <img src="images/Tea.jpg" alt="Tea">
+      <h3>Tea - $2</h3>
+      <p>Relaxing herbal or black tea.</p>
+      <button onclick="showNoteBox(this)">Add Note</button>
+      <textarea class="note-box" placeholder="Add a note (optional)" style="display:none"></textarea>
+      <button onclick="addToCart(this, 'Tea', 2)">Add to Cart</button>
+    </div>
+
+    <div class="menu-item">
+      <img src="images/pastries.webp" alt="Dessert">
+      <h3>Dessert - $4</h3>
+      <p>Daily selection of fresh cakes & pastries.</p>
+      <button onclick="showPastryModal()">Choose Pastries</button>
+    </div>
+
+  <div id="pastry-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:1000;justify-content:center;align-items:center;">
+    <div style="background:#fff;padding:32px 24px;border-radius:16px;max-width:400px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
+      <h2>Choose Your Pastries</h2>
+      <div class="pastry-types" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;justify-content:center;">
+        <label style="background:#fff3e0;padding:6px 12px;border-radius:6px;cursor:pointer;">
+          <input type="checkbox" name="pastryType" value="Croissants"> Croissants
+        </label>
+        <label style="background:#fff3e0;padding:6px 12px;border-radius:6px;cursor:pointer;">
+          <input type="checkbox" name="pastryType" value="Tarts"> Tarts
+        </label>
+        <label style="background:#fff3e0;padding:6px 12px;border-radius:6px;cursor:pointer;">
+          <input type="checkbox" name="pastryType" value="Pies"> Pies
+        </label>
+        <label style="background:#fff3e0;padding:6px 12px;border-radius:6px;cursor:pointer;">
+          <input type="checkbox" name="pastryType" value="Palmier"> Palmier
+        </label>
+        <label style="background:#fff3e0;padding:6px 12px;border-radius:6px;cursor:pointer;">
+          <input type="checkbox" name="pastryType" value="Opera"> Opera
+        </label>
+        <label style="background:#fff3e0;padding:6px 12px;border-radius:6px;cursor:pointer;">
+          <input type="checkbox" name="pastryType" value="Todays Special" onclick="chooseTodaysSpecial(event)"> Today's Special
+        </label>
+<script>
+function chooseTodaysSpecial(e) {
+  e.stopPropagation();
+  document.getElementById('pastry-modal').style.display = 'none';
+  document.getElementById('special-modal').style.display = 'flex';
+}
+</script>
+      </div>
+      <button onclick="showNoteBox(document.getElementById('pastry-modal'))">Add Note</button>
+      <textarea class="note-box" placeholder="Add a note (optional)" style="display:none;margin-bottom:10px;"></textarea>
+      <button onclick="addPastryToCartFromModal()" style="background:#D4AF37;color:#fff;padding:8px 18px;border:none;border-radius:6px;cursor:pointer;margin-top:10px;">Add to Cart</button>
+      <button onclick="closePastryModal()" style="background:#e74c3c;color:#fff;padding:6px 14px;border:none;border-radius:6px;cursor:pointer;margin-top:10px;">Close</button>
+    </div>
+  </div>
+  </section>
+
+<script>
+function showOrderTimeAndCheckout() {
+  var orderTime = document.getElementById('order-time');
+  var min = 7, max = 15;
+  var est = Math.floor(Math.random() * (max - min + 1)) + min;
+  var svgText = orderTime.querySelector('text');
+  if (svgText) svgText.textContent = `~${est} min`;
+  orderTime.style.display = 'block';
+  setTimeout(function() {
+    window.location.href = "contact.html";
+  }, 2000); 
+}
+</script>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 Smart Cafe. All rights reserved.</p>
+</footer>
+</body>
+</html>  
